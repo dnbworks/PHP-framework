@@ -1,0 +1,44 @@
+{
+    "name": "dnbworks/magma-package",
+    "description": "A Small modular PHP framework Build for web applications",
+    "keywords": [
+        "php",
+        "framework",
+        "magmacore",
+        "lavastudio"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "time": "2020-12-25",
+    "readme": "https://github.com/dnbworks/main/README.md",
+    "autoload": {
+        "psr-4": {
+            "MagmaCore\\": "src/Magma"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MagmaCore\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "dnbworks",
+            "email": "dooyongnsaakobalderama@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "mockery/mockery": "^1.4",
+        "phpunit/phpunit": "^9.5"
+    },
+    "require": {
+        "symfony/console": "^6.0",
+        "symfony/serializer-pack": "^1.1",
+        "flatbase/flatbase": "^0.4.1",
+        "symfony/dotenv": "^6.0",
+        "paragonie/anti-csrf": "^2.3",
+        "symfony/http-foundation": "^6.0",
+        "symfony/yaml": "^6.0",
+        "phpmailer/phpmailer": "^6.5"
+    }
+}
