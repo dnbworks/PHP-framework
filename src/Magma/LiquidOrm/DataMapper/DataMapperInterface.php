@@ -63,13 +63,6 @@ interface DataMapperInterface
     public function results() : array;
 
     /**
-     * Returns a database column
-     * 
-     * @return mixed
-     */
-    public function column();
-
-    /**
      * Returns the last inserted row ID from database table
      * 
      * @return int
@@ -79,4 +72,4 @@ interface DataMapperInterface
 
 
 
-}
+} 

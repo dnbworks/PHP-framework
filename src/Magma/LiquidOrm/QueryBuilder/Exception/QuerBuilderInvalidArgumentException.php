@@ -6,6 +6,6 @@ namespace Magma\LiquidOrm\QueryBuilder\Exception;
 
 use InvalidArgumentException;
 
-class QuerBuilderInvalidArgumentException extends InvalidArgumentException {
+class QueryBuilderInvalidArgumentException extends InvalidArgumentException {
     
 }

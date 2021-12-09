@@ -1,33 +1,19 @@
-<?php
-/*
- * This file is part of the MagmaCore package.
- *
- * (c) Ricardo Miller <ricardomiller@lava-studio.co.uk>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+<?php 
 
 declare(strict_types=1);
 
 namespace Magma\LiquidOrm\QueryBuilder;
 
-use Magma\LiquidOrm\QueryBuilder\QueryBuilderInterface;
-use Magma\LiquidOrm\QueryBuilder\Exception\QuerBuilderInvalidArgumentException;
+use Magma\LiquidOrm\QueryBuilder\Exception\QueryBuilderInvalidArgumentException;
 
-// use MagmaCore\DataObjectLayer\Exception\DataLayerInvalidArgumentException;
-
-class QueryBuilder extends QueryBuilderInterface
+class QueryBuilder implements QueryBuilderInterface
 {
 
-     /** @var array */
-     protected array $key = [];
+    protected array $key;
 
-     /** @var string */
-     protected string $sqlQuery = '';
- 
-     /** @var array */
-     protected const SQL_DEFAULT = [
+    protected string $sqlQuery = '';
+
+    protected const SQL_DEFAULT = [
         'conditions' => [],
         'selectors' => [],
         'replace' => false,
@@ -41,31 +27,23 @@ class QueryBuilder extends QueryBuilderInterface
         'primary_key' => '',
         'table' => '',
         'type' => '',
-        'raw' => '',
-        'join_to' => '',
-        'join_to_selectors' => [],
-        'join_type' => '',
-     ];
- 
-     /** @var array */
-     protected const QUERY_TYPES = ['insert', 'select', 'update', 'delete', 'raw', 'search', 'join'];
+        'raw' => ''
+    ];
 
-     
+    protected const QUERY_TYPES = ['insert', 'select', 'update', 'delete', 'raw', 'search'];
+
     /**
      * Main constructor class
      * 
      * @return void
      */
     public function __construct()
-    {
-        // parent::__construct();
-    }
+    { }
 
-    public function buildQuery(array $args = []): self
+    public function buildQuery(array $args = []) : self
     {
         if (count($args) < 0) {
-            // throw new DataLayerInvalidArgumentException('Your BuildQuery method has no defined argument. Please fix this');
-            throw new QuerBuilderInvalidArgumentException();
+            throw new QueryBuilderInvalidArgumentException();
         }
         $arg = array_merge(self::SQL_DEFAULT, $args);
         $this->key = $arg;
@@ -80,7 +58,8 @@ class QueryBuilder extends QueryBuilderInterface
         return false;
     }
 
-    public function insertQuery(): string
+
+    public function insertQuery() : string
     {
         if ($this->isQueryTypeValid('insert')) {
             if (is_array($this->key['fields']) && count($this->key['fields']) > 0) {
@@ -90,67 +69,28 @@ class QueryBuilder extends QueryBuilderInterface
                 return $this->sqlQuery;
             }
         }
+        return false;
     }
 
-    public function selectQuery(): string
+    public function selectQuery() : string
     {
         if ($this->isQueryTypeValid('select')) {
             $selectors = (!empty($this->key['selectors'])) ? implode(", ", $this->key['selectors']) : '*';
-            if (isset($this->key['aggregate']) && $this->key['aggregate']) {
-                $this->sqlQuery = "SELECT {$this->key['aggregate']}({$this->key['aggregate_field']}) FROM {$this->key['table']}";
-            } else {
-                $this->sqlQuery = "SELECT {$selectors} FROM {$this->key['table']}";
-            }
+            $this->sqlQuery = "SELECT {$selectors} FROM {$this->key['table']}";
+
             $this->sqlQuery = $this->hasConditions();
             return $this->sqlQuery;
+
         }
+        return false;
     }
 
-    public function joinQuery(): string
-    {
-        $selectors = $joinSelectors = '';
-        if ($this->isQueryTypeValid('join')) {
-            if (
-                isset($this->key['selectors']) &&
-                count($this->key['selectors']) > 0
-            ) {
-                $selectors = implode(', ', $this->aliasSelectors($this->key['table'], $this->key['selectors']));
-            }
-            if (
-                isset($this->key['join_to_selectors']) &&
-                count($this->key['join_to_selectors']) > 0
-            ) {
-                $joinSelectors = implode(', ', $this->aliasSelectors('', $this->key['join_to_selectors']));
-            }
-            $this->sqlQuery = "SELECT 
-            {$selectors}
-            AS
-            {$this->key['table']},
-            " . str_replace('.', '', $joinSelectors) . "
-            AS
-            {$this->key['join_to']}
-            FROM
-            {$this->key['table']},
-            {$this->key['join_to']},
-            user_role
-            WHERE 
-            users.id = user_role.user_id
-            AND roles.id = user_role.role_id
-            ";
-            $this->sqlQuery = $this->hasConditions();
-
-            return $this->sqlQuery;
-        }
-
-    }
-
-
-    public function updateQuery(): string
+    public function updateQuery() : string
     {
         if ($this->isQueryTypeValid('update')) {
             if (is_array($this->key['fields']) && count($this->key['fields']) > 0) {
-                $values = '';
-                foreach (array_keys($this->key['fields']) as $field) {
+                $values = "";
+                foreach ($this->key['fields'] as $field) {
                     if ($field !== $this->key['primary_key']) {
                         $values .= $field . " = :" . $field . ", ";
                     }
@@ -166,74 +106,37 @@ class QueryBuilder extends QueryBuilderInterface
                 return $this->sqlQuery;
             }
         }
+        return false;
     }
 
-    public function deleteQuery(): string
+    public function deleteQuery() : string
     {
         if ($this->isQueryTypeValid('delete')) {
             $index = array_keys($this->key['conditions']);
-            $this->sqlQuery = "DELETE FROM {$this->key['table']} WHERE {$index[0]} = :{$index[0]}";
-            if (isset($this->key['conditions']) && count($this->key['conditions']) > 1) {
-                $this->sqlQuery .= " AND {$index[1]} = :{$index[1]}";
+            $this->sqlQuery = "DELETE FROM {$this->key['table']} WHERE {$index[0]} = :{$index[0]} LIMIT 1";
+            $bulkDelete = array_values($this->key['fields']);
+            if (is_array($bulkDelete) && count($bulkDelete) > 1) {
+                for ($i = 0; $i < count($bulkDelete); $i++) {
+                    $this->sqlQuery = "DELETE FROM {$this->key['table']} WHERE {$index[0]} = :{$index[0]}";
+                }
             }
-            $this->sqlQuery .= ' LIMIT 1';
-           $bulkDelete = array_values($this->key['fields']);
-           if (is_array($bulkDelete) && count($bulkDelete) > 1) {
-               for ($i = 0; $i < count($bulkDelete); $i++) {
-                   $this->sqlQuery = "DELETE FROM {$this->key['table']} WHERE {$index[0]} = :{$index[0]}";
-               }
-           }
 
             return $this->sqlQuery;
         }
         return false;
     }
 
-    public function searchQuery(): string
+    private function hasConditions()
     {
-        if ($this->isQueryTypeValid('search')) {
-            if (is_array($this->key['selectors']) && $this->key['selectors'] != '') {
-                $this->sqlQuery = "SELECT * FROM {$this->key['table']} WHERE ";
-                if ($this->has('selectors')) {
-                    $values = [];
-                    foreach ($this->key['selectors'] as $selector) {
-                        $values[] = $selector . " LIKE " . ":{$selector}";
-                    }
-                    if (count($this->key['selectors']) >= 1) {
-                        $this->sqlQuery .= implode(" OR ", $values);
-                    }
-                }
-                $this->sqlQuery .= $this->orderByQuery();
-                $this->sqlQuery .= $this->queryOffset();
-            }
-            return $this->sqlQuery;
-        }
-    }
-
-    public function rawQuery(): string
-    {
-        if ($this->isQueryTypeValid('raw')) {
-//            $index = array_keys($this->key['conditions']);
-            $this->sqlQuery = $this->key['raw'];
-//            if (isset($this->key['conditions']) && count($this->key['conditions']) > 0) {
-//                $this->sqlQuery .= " WHERE {$index[1]} = :{$index[1]}";
-//            }
-
-            return $this->sqlQuery;
-        }
-    }
-
-    private function hasConditions(): string
-    {
-        if (isset($this->key['conditions']) && $this->key['conditions'] != '') {
+        if (isset($this->key['conditions']) && $this->key['conditions'] !='') {
             if (is_array($this->key['conditions'])) {
                 $sort = [];
-                foreach (array_keys($this->key['conditions']) as $where) {
-                    if (isset($where) && $where != '') {
+                foreach (array_keys($this->key['conditions']) as $whereKey => $where) {
+                    if (isset($where) && $where !='') {
                         $sort[] = $where . " = :" . $where;
                     }
                 }
-                if (count($this->key['conditions']) > 0) {
+                if (count($this->key['condition']) > 0) {
                     $this->sqlQuery .= " WHERE " . implode(" AND ", $sort);
                 }
             }
@@ -241,15 +144,25 @@ class QueryBuilder extends QueryBuilderInterface
             $this->sqlQuery = " WHERE 1";
         }
 
-        if(isset($this->key['orderBy']) && $this->key['orderBy'] != ''){
+        if (isset($this->key['orderBy']) && $this->key['orderBy'] !='') {
             $this->sqlQuery .= " ORDER BY " . $this->key['orderBy'] . " ";
         }
-        if(isset($this->key['limit']) && $this->key['offset'] != -1){
-            $this->sqlQuery .= " LIMIT " . $this->key['limit'] . " ";
+        if (isset($this->key['limit']) && $this->key['offset'] != -1) {
+            $this->sqlQuery .= " LIMIT :offset, :limit";
         }
-        // $this->sqlQuery .= $this->orderByQuery();
-        // $this->sqlQuery .= $this->queryOffset();
 
         return $this->sqlQuery;
     }
-}
+
+    public function rawQuery() : string
+    {
+        return '';
+    }
+
+    public function searchQuery() : string
+    {
+        return '';
+    }
+
+
+} 

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Magma\Router;
 
 use Exception;
+use Magma\Router\Exception\RouterBadMethodCallException;
 use Magma\Router\RouterInterface;
+use Magma\Router\Exception\RouterException;
 
 class Router implements RouterInterface
 {
@@ -48,29 +50,28 @@ class Router implements RouterInterface
 
     }
 
-    public function dispatch(string $url): void
+    public function dispatch(string $url) : void
     {
-        $url = $this->formatQueryString($url);
         if ($this->match($url)) {
-            $controllerString = $this->params['controller'] . $this->controllerSuffix;
+            $controllerString = $this->params['controller'];
             $controllerString = $this->transformUpperCamelCase($controllerString);
-            $controllerString = $this->getNamespace($controllerString) . $controllerString;
+            $controllerString = $this->getNamespace($controllerString);
 
             if (class_exists($controllerString)) {
-                $controllerObject = new $controllerString($this->params);
+                $controllerObject = new $controllerString();
                 $action = $this->params['action'];
                 $action = $this->transformCamelCase($action);
 
                 if (\is_callable([$controllerObject, $action])) {
                     $controllerObject->$action();
                 } else {
-                    throw new Exception('Invalid method');
+                    throw new RouterBadMethodCallException();
                 }
             } else {
-                throw new Exception('Controller class does not exist');
+                throw new RouterException();
             }
         } else {
-            throw new Exception('404 ERROR no page found');
+            throw new RouterException();
         }
     }
 
@@ -105,6 +106,22 @@ class Router implements RouterInterface
             }
         }
         return false;
+    }
+
+    /**
+     * Get the namespace for the controller class. the namespace difined within the route parameters 
+     * only if it was added.
+     * 
+     * @param string $string
+     * @return string
+     */
+    public function getNamespace(string $string) : string
+    {
+        $namespace = 'App\Controller\\';
+        if (array_key_exists('namespace', $this->params)) {
+            $namespace .= $this->params['namespace'] . '\\';
+        }
+        return $namespace;
     }
 
 
