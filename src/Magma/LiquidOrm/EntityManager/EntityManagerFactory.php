@@ -1,19 +1,15 @@
 <?php
-/*
- * This file is part of the MagmaCore package.
- *
- * (c) Ricardo Miller <ricardomiller@lava-studio.co.uk>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+
 declare(strict_types=1);
 
-namespace MagmaCore\DataObjectLayer\EntityManager;
+namespace Magma\LiquidOrm\EntityManager;
 
-use MagmaCore\DataObjectLayer\Exception\DataLayerUnexpectedValueException;
-use MagmaCore\DataObjectLayer\QueryBuilder\QueryBuilderInterface;
-use MagmaCore\DataObjectLayer\DataMapper\DataMapperInterface;
+use Magma\LiquidOrm\EntityManager\Exception\CrudException;
+use Magma\LiquidOrm\EntityManager\EntityManagerInterface;
+use Magma\LiquidOrm\QueryBuilder\QueryBuilderInterface;
+use Magma\LiquidOrm\DataMapper\DataMapperInterface;
+
+
 
 class EntityManagerFactory
 {
@@ -48,7 +44,7 @@ class EntityManagerFactory
     {
         $crudObject = new $crudString($this->dataMapper, $this->queryBuilder, $tableSchema, $tableSchemaID);
         if (!$crudObject instanceof CrudInterface) {
-            throw new DataLayerUnexpectedValueException($crudString . ' is not a valid crud object.');
+            throw new CrudException($crudString . ' is not a valid crud object.');
         }
         return new EntityManager($crudObject);
     }

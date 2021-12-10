@@ -1,0 +1,2 @@
+
+EntityManager directory best explains the factory pattern

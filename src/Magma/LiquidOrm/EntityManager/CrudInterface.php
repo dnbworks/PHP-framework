@@ -24,6 +24,6 @@ interface CrudInterface
 
     public function search(array $selectors = [], array $conditions = []) : array;
 
-    public function rawQuery(string $rawQuery, array $conditions = []);
+    public function rawQuery(string $rawQuery, ?array $conditions = []);
 
 } 

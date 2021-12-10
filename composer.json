@@ -3,9 +3,7 @@
     "description": "A Small modular PHP framework Build for web applications",
     "keywords": [
         "php",
-        "framework",
-        "magmacore",
-        "lavastudio"
+        "framework"
     ],
     "type": "library",
     "license": "MIT",

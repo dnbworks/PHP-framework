@@ -41,7 +41,12 @@ class Crud implements CrudInterface
     {
         return $this->dataMapper->getLastId();
     }
-
+    /**
+     * @inheritDoc
+     *
+     * @param array $fields
+     * @return boolean
+     */
     public function create(array $fields = []) : bool
     {
         try {
@@ -55,7 +60,9 @@ class Crud implements CrudInterface
             throw $throwable;
         }
     }
-
+    /**
+     * 
+     */
     public function read(array $selectors = [], array $conditions = [], array $parameters = [], array $optional = []) : array
     {
         try{
@@ -113,10 +120,18 @@ class Crud implements CrudInterface
 
     }
 
-
-    public function rawQuery(string $rawQuery, array $conditions = [])
+    public function rawQuery(string $rawQuery, ?array $conditions = [])
     {
-
+        try {
+            $args = ['table' => $this->getSchema(), 'type' => 'raw', 'raw' => $rawQuery, 'conditions' => $conditions];
+            $query = $this->queryBuilder->buildQuery($args)->searchQuery();
+            $this->dataMapper->persist($query, $this->dataMapper->buildQueryParameters($conditions));
+            if ($this->dataMapper->numRows()) {
+                return $this->dataMapper->results();
+            }
+        }catch(Throwable $throwable) {
+            throw $throwable;
+        }
     }
 
 
