@@ -1,2 +1,3 @@
 
 EntityManager directory best explains the factory pattern
+echo DataConnection::class
