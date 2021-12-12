@@ -21,6 +21,7 @@ class DataMapper implements DataMapperInterface
     /**
      * @var PDOStateemnt
      */
+    // private PDOStatement $statement;
     private PDOStatement $stmt;
 
     /**

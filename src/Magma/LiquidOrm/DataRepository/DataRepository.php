@@ -68,7 +68,9 @@ class DataRepository implements DataRepositoryInterface
     }
 
     public function findObjectBy(array $conditions = [], array $selectors = []) : Object
-    {}
+    {
+        
+    }
 
     public function findBySearch(array $selectors = [], array $conditions = [], array $parameters = [], array $optional = []) : array
     {
