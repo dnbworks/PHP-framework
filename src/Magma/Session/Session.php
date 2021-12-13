@@ -19,7 +19,7 @@ class Session implements SessionInterface
     /** @var string */
     protected string $sessionName;
 
-    /** @var const */
+    /** @var string */
     protected const SESSION_PATTERN = '/^[a-zA-Z0-9_\.]{1,64}$/';
 
     /**
@@ -173,7 +173,7 @@ class Session implements SessionInterface
     protected function ensureSessionKeyIsvalid(string $key) : void
     {
         if ($this->isSessionKeyValid($key) === false) {
-            throw new SessionInvalidArgumentException($key, ' is not a valid session key');
+            throw new SessionInvalidArgumentException($key . ' is not a valid session key');
         }
     }
 

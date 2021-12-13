@@ -1,3 +1,7 @@
 
 EntityManager directory best explains the factory pattern
 echo DataConnection::class
+factory pattern creates the object of the class we are trying to instiante and we can pass in all the dependency that class
+reuires
+
+https://developers.turing.com/signup freelance
