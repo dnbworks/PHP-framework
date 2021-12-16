@@ -5,3 +5,4 @@ factory pattern creates the object of the class we are trying to instiante and w
 reuires
 
 https://developers.turing.com/signup freelance
+test out $_GLOBALS

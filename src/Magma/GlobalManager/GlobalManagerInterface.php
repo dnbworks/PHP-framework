@@ -14,7 +14,7 @@ interface GlobalManagerInterface
      * @param mixed $value
      * @return void
      */
-    public function set(string $key, $value) : void;
+    public static function set(string $key, $value) : void;
 
     /**
      * Get the value of the set global variable
@@ -22,6 +22,6 @@ interface GlobalManagerInterface
      * @param string $key
      * @return mixed
      */
-    public function get(string $key);
+    public static function get(string $key);
 
 }
