@@ -38,6 +38,7 @@ class BaseView
             $twig->addExtension(new TwigExtension());
         }
         return $twig->render($template, $context);
+
     }
 
 }
