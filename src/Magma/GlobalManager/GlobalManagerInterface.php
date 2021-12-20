@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Magma\GlobalManager;
+namespace MagmaCore\GlobalManager;
 
 interface GlobalManagerInterface
 {

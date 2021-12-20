@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Magma\GlobalManager\Exception;
+namespace MagmaCore\GlobalManager\Exception;
 
-use Magma\Base\Exception\BaseException;
+use MagmaCore\Base\Exception\BaseException;
 
 class GlobalManagerException extends BaseException
 { }

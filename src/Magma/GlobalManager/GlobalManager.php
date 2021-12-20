@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Magma\GlobalManager;
+namespace MagmaCore\GlobalManager;
 
-use Magma\GlobalManager\GlobalManagerInterface;
-use Magma\GlobalManager\Exception\GlobalManagerException;
-use Magma\GlobalManager\Exception\GlobalManagerInvalidArgumentException;
+use MagmaCore\GlobalManager\GlobalManagerInterface;
+use MagmaCore\GlobalManager\Exception\GlobalManagerException;
+use MagmaCore\GlobalManager\Exception\GlobalManagerInvalidArgumentException;
 use Throwable;
 
 class GlobalManager implements GlobalManagerInterface

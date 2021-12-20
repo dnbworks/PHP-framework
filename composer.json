@@ -11,12 +11,12 @@
     "readme": "https://github.com/dnbworks/main/README.md",
     "autoload": {
         "psr-4": {
-            "MagmaCore\\": "src/Magma"
+            "Magma\\": "src/Magma"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "MagmaCore\\Tests\\": "tests/"
+            "Magma\\Tests\\": "tests/"
         }
     },
     "authors": [

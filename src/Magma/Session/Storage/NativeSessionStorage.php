@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Magma\Session\Storage;
+namespace MagmaCore\Session\Storage;
+
 
 class NativeSessionStorage extends AbstractSessionStorage
 {
@@ -12,6 +13,7 @@ class NativeSessionStorage extends AbstractSessionStorage
      *
      * @param array $options
      */
+
     public function __construct(array $options = [])
     {
         parent::__construct($options);

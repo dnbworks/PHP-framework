@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Magma\Session;
+namespace MagmaCore\Session;
 
-use Magma\Session\Exception\SessionStorageInvalidArgumentException;
-use Magma\Session\Storage\SessionStorageInterface;
-use Magma\Session\SessionInterface;
+use MagmaCore\Session\Exception\SessionStorageInvalidArgumentException;
+use MagmaCore\Session\Storage\SessionStorageInterface;
+use MagmaCore\Session\SessionInterface;
 
 class SessionFactory
 {
@@ -25,6 +25,8 @@ class SessionFactory
     public function create(string $sessionName, string $storageString, array $options = []) : SessionInterface
     {
         $storageObject = new $storageString($options);
+        // echo 'passed';
+        // die();
         if (!$storageObject instanceof SessionStorageInterface) {
             throw new SessionStorageInvalidArgumentException($storageString . ' is not a valid session storage object.');
         }

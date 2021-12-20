@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Magma\Session\Storage;
+namespace MagmaCore\Session\Storage;
 
 interface SessionStorageInterface
 {

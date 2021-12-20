@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Magma\Traits;
+namespace MagmaCore\Traits;
 
-use Magma\Base\Exception\BaseLogicException;
-use Magma\GlobalManager\GlobalManager;
-use Magma\Session\SessionManager;
+use MagmaCore\Base\Exception\BaseLogicException;
+use MagmaCore\GlobalManager\GlobalManager;
+use MagmaCore\Session\SessionManager;
 
 trait SystemTrait
 {
@@ -21,6 +21,7 @@ trait SystemTrait
     public static function sessionInit(bool $useSessionGlobal = false)
     {
         $session = SessionManager::initialize();
+      
         if (!$session) {
             throw new BaseLogicException('Please enable session within your session.yaml configuration file.');
         } else if ($useSessionGlobal === true) {

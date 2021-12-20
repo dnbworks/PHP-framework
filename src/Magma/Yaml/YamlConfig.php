@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Magma\Yaml;
+namespace MagmaCore\Yaml;
 
 use Magma\Base\Exception\BaseException;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -50,9 +50,9 @@ class YamlConfig
      * @param string $yamlFile
      * @return void
      */
-    public static function file(string $yamlFile)
+    public static function file(string $yamlFile) : array
     {
-        return (new YamlConfig)->getYaml($yamlFile);
+        return (array)(new YamlConfig)->getYaml($yamlFile);
     }
 
 }

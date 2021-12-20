@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Magma\Session;
+namespace MagmaCore\Session;
 
-use Magma\Session\SessionFactory;
+use MagmaCore\Session\SessionFactory;
+use MagmaCore\Yaml\YamlConfig;
 
 class SessionManager
 {
@@ -16,10 +17,10 @@ class SessionManager
      *
      * @return void
      */
-    public static function initialize()
+    public static function initialize() : Object
     {
         $factory = new SessionFactory();
-        return $factory->create('', \Magma\Session\Storage\NativeSessionStorage::class, array());
+        return $factory->create('magmacore', \MagmaCore\Session\Storage\NativeSessionStorage::class, YamlConfig::file('session'));
     }
 
 }
