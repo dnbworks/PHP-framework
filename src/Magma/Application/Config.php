@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MagmaCore\Application;
+namespace Magma\Application;
 
 class Config
 {

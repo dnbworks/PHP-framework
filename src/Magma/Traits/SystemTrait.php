@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace MagmaCore\Traits;
+namespace Magma\Traits;
 
-use MagmaCore\Base\Exception\BaseLogicException;
-use MagmaCore\GlobalManager\GlobalManager;
-use MagmaCore\Session\SessionManager;
+use Magma\Base\Exception\BaseLogicException;
+use Magma\GlobalManager\GlobalManager;
+use Magma\Session\SessionManager;
 
 trait SystemTrait
 {

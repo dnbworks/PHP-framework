@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MagmaCore\Session;
+namespace Magma\Session;
 
 interface SessionInterface
 {

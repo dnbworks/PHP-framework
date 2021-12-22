@@ -7,5 +7,6 @@ if (is_file($autolaod)) {
 use Magma\Application\Application;
 $app = new Application(ROOT_PATH);
 $app->run()
-->setSession();
+->setSession()
+->setRouteHandler($_SERVER['QUERY_STRING']);
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MagmaCore\Yaml;
+namespace Magma\Yaml;
 
 use Magma\Base\Exception\BaseException;
 use Symfony\Component\Yaml\Exception\ParseException;

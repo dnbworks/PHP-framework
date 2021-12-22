@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MagmaCore\GlobalManager\Exception;
+namespace Magma\GlobalManager\Exception;
 
-use MagmaCore\Base\Exception\BaseInvalidArgumentException;
+use Magma\Base\Exception\BaseInvalidArgumentException;
 
 class GlobalManagerInvalidArgumentException extends BaseInvalidArgumentException
 { }

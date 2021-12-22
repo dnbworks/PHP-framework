@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MagmaCore\Session;
+namespace Magma\Session;
 
-use MagmaCore\Session\SessionFactory;
-use MagmaCore\Yaml\YamlConfig;
+use Magma\Session\SessionFactory;
+use Magma\Yaml\YamlConfig;
 
 class SessionManager
 {

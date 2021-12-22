@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace MagmaCore\Session;
+namespace Magma\Session;
 
-use MagmaCore\Session\Exception\SessionInvalidArgumentException;
-use MagmaCore\Session\Exception\SessionException;
-use MagmaCore\Session\SessionInterface;
-use MagmaCore\Session\Storage\SessionStorageInterface;
+use Magma\Session\Exception\SessionInvalidArgumentException;
+use Magma\Session\Exception\SessionException;
+use Magma\Session\SessionInterface;
+use Magma\Session\Storage\SessionStorageInterface;
 use Throwable;
 
 class Session implements SessionInterface

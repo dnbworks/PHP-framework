@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace MagmaCore\Session;
+namespace Magma\Session;
 
-use MagmaCore\Session\Exception\SessionStorageInvalidArgumentException;
-use MagmaCore\Session\Storage\SessionStorageInterface;
-use MagmaCore\Session\SessionInterface;
+use Magma\Session\Exception\SessionStorageInvalidArgumentException;
+use Magma\Session\Storage\SessionStorageInterface;
+use Magma\Session\SessionInterface;
 
 class SessionFactory
 {
