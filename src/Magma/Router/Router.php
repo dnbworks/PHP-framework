@@ -38,6 +38,10 @@ class Router implements RouterInterface
         $route = '/^' . $route . '$/i';
         
         $this->routes[$route] = $params;
+        // echo '<pre>';
+        // var_dump($this->routes);
+        // echo '</pre>';
+        // die();
     }
 
     /**
@@ -46,11 +50,20 @@ class Router implements RouterInterface
     public function dispatch(string $url) : void
     {   
         if ($this->match($url)) {
-            $controllerString = $this->params['controller'] . $this->controllerSuffix;
+            $controllerString = $this->params['controller'] . ' ' . $this->controllerSuffix;
             $controllerString = $this->transformUpperCamelCase($controllerString);
             $controllerString = $this->getNamespace($controllerString) . $controllerString;
 
+            echo $controllerString . '<br>';
+            if(class_exists($controllerString)){
+                echo 'yes' . '<br>';
+            } else {
+                echo 'no' . '<br>';
+            }
+            exit;
+       
             if (class_exists($controllerString)) {
+                
                 $controllerObject = new $controllerString($this->params);
                 $action = $this->params['action'];
                 $action = $this->transformCamelCase($action);
@@ -95,6 +108,9 @@ class Router implements RouterInterface
                     }
                 }
                 $this->params = $params;
+                // echo '<pre>';
+                // var_dump($this->params);
+                // echo '</pre>';
                 return true;
             }
         }

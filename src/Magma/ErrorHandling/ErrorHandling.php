@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MagmaCore\ErrorHandling;
+namespace Magma\ErrorHandling;
 
 use ErrorException;
 use Magma\Base\BaseView;

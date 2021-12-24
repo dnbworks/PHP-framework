@@ -20,7 +20,7 @@ class SessionManager
     public static function initialize() : Object
     {
         $factory = new SessionFactory();
-        return $factory->create('magmacore', \MagmaCore\Session\Storage\NativeSessionStorage::class, YamlConfig::file('session'));
+        return $factory->create('magmacore', \Magma\Session\Storage\NativeSessionStorage::class, YamlConfig::file('session'));
     }
 
 }

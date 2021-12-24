@@ -48,7 +48,7 @@ class YamlConfig
      * Load a yaml configuration into the yaml parser
      *
      * @param string $yamlFile
-     * @return void
+     * @return array
      */
     public static function file(string $yamlFile) : array
     {

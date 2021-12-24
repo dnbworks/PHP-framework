@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Magma\Application;
 
 use Magma\Application\Config;
-use Magma\Yaml\YamlConfig;
 use Magma\Traits\SystemTrait;
 use Magma\Router\RouterManager;
 
