@@ -36,12 +36,7 @@ class Router implements RouterInterface
     {   
         $route = preg_replace('/\//', '\\/', $route);
         $route = '/^' . $route . '$/i';
-        
         $this->routes[$route] = $params;
-        // echo '<pre>';
-        // var_dump($this->routes);
-        // echo '</pre>';
-        // die();
     }
 
     /**
@@ -53,14 +48,6 @@ class Router implements RouterInterface
             $controllerString = $this->params['controller'] . ' ' . $this->controllerSuffix;
             $controllerString = $this->transformUpperCamelCase($controllerString);
             $controllerString = $this->getNamespace($controllerString) . $controllerString;
-
-            echo $controllerString . '<br>';
-            if(class_exists($controllerString)){
-                echo 'yes' . '<br>';
-            } else {
-                echo 'no' . '<br>';
-            }
-            exit;
        
             if (class_exists($controllerString)) {
                 
@@ -108,9 +95,6 @@ class Router implements RouterInterface
                     }
                 }
                 $this->params = $params;
-                // echo '<pre>';
-                // var_dump($this->params);
-                // echo '</pre>';
                 return true;
             }
         }
@@ -126,7 +110,7 @@ class Router implements RouterInterface
      */
     public function getNamespace(string $string) : string
     {
-        $namespace = 'App\Controller\\';
+        $namespace = 'Magma\App\Controller\\';
         if (array_key_exists('namespace', $this->params)) {
             $namespace .= $this->params['namespace'] . '\\';
         }

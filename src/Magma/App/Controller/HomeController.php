@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace Magma\App\Controller;
 
 use Magma\Base\BaseController;
 
