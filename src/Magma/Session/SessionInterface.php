@@ -13,7 +13,7 @@ interface SessionInterface
      * @param string $key   The key of the item to store.
      * @param mixed  $value The value of the item to store. Must be serializable.
      * @return void
-     * @throws SessionInvalidArgumentException MUST be thrown if the $key string is not a legal value.
+     * @throws BaseInvalidArgumentException  MUST be thrown if the $key string is not a legal value.
      */
     public function set(string $key, $value) : void;
 
@@ -33,7 +33,7 @@ interface SessionInterface
      * @param string $key   The key of the item to store.
      * @param mixed  $default the default value to return if the request value can't be found
      * @return mixed
-     * @throws SessionInvalidArgumentException MUST be thrown if the $key string is not a legal value.
+     * @throws BaseInvalidArgumentException  MUST be thrown if the $key string is not a legal value.
      */
     public function get(string $key, $default = null);
 
@@ -42,7 +42,7 @@ interface SessionInterface
      *
      * @param string $key   The key of the item that will be unset.
      * @return bool
-     * @throws SessionInvalidArgumentException
+     * @throws BaseInvalidArgumentException 
      */
     public function delete(string $key) : bool;
 
@@ -69,7 +69,7 @@ interface SessionInterface
      *
      * @param string $key The session item key.
      * @return bool
-     * @throws SessionInvalidArgumentException  MUST be thrown if the $key string is not a legal value.
+     * @throws BaseInvalidArgumentException  MUST be thrown if the $key string is not a legal value.
      */
     public function has(string $key) : bool;
 

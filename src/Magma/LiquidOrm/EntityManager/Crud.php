@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\EntityManager;
 
+use Exception;
 use Magma\LiquidOrm\QueryBuilder\QueryBuilder;
+use Magma\LiquidOrm\EntityManager\CrudInterface;
 use Magma\LiquidOrm\DataMapper\DataMapper;
+
 use Throwable;
 
 class Crud implements CrudInterface
@@ -69,16 +72,14 @@ class Crud implements CrudInterface
      */
     public function read(array $selectors = [], array $conditions = [], array $parameters = [], array $optional = []) : array
     {
-        try{
-            $args = ['table' => $this->getSchema(), 'type' => 'select', 'selectors' => $selectors, 'conditions' => $conditions, 'params' => $parameters, 'extras' => $optional];
-            $query = $this->queryBuilder->buildQuery($args)->selectQuery();
-            $this->dataMapper->persist($query, $this->dataMapper->buildQueryParameters($conditions, $parameters));
-            if ($this->dataMapper->numRows() > 0) {
-                return $this->dataMapper->results();
-            }
-        } catch(Throwable $throwable) {
-            throw $http_response_header;
-        }
+       
+        $args = ['table' => $this->getSchema(), 'type' => 'select', 'selectors' => $selectors, 'conditions' => $conditions, 'params' => $parameters, 'extras' => $optional];
+        $query = $this->queryBuilder->buildQuery($args)->selectQuery();
+        $this->dataMapper->persist($query, $this->dataMapper->buildQueryParameters($conditions, $parameters));
+        if ($this->dataMapper->numRows() >= 0) {
+            return $this->dataMapper->results();
+        } 
+         
     }
 
     public function update(array $fields = [], string $primaryKey) : bool
@@ -115,7 +116,7 @@ class Crud implements CrudInterface
             $args = ['table' => $this->getSchema(), 'type' => 'search', 'selectors' => $selectors, 'conditions' => $conditions];
             $query = $this->queryBuilder->buildQuery($args)->searchQuery();
             $this->dataMapper->persist($query, $this->dataMapper->buildQueryParameters($conditions));
-            if ($this->dataMapper->numRows() > 0) {
+            if ($this->dataMapper->numRows() >= 0) {
                 return $this->dataMapper->results();
             }
         }catch(Throwable $throwable) {

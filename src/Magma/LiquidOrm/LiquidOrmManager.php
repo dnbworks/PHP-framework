@@ -6,10 +6,11 @@ namespace Magma\LiquidOrm;
 
 use Magma\DatabaseConnection\DatabaseConnection;
 use Magma\LiquidOrm\DataMapper\DataMapperEnvironmentConfiguration;
-use Magma\LiquidOrm\DataMapper\DataMapperFactory;
 use Magma\LiquidOrm\EntityManager\EntityManagerFactory;
 use Magma\LiquidOrm\QueryBuilder\QueryBuilderFactory;
+use Magma\LiquidOrm\DataMapper\DataMapperFactory;
 use Magma\LiquidOrm\QueryBuilder\QueryBuilder;
+use Magma\LiquidOrm\EntityManager\Crud;
 
 class LiquidOrmManager
 {
@@ -33,7 +34,7 @@ class LiquidOrmManager
     public function initialize()
     {
         $dataMapperFactory = new DataMapperFactory();
-        $dataMapper = $dataMapperFactory->create(DatabaseConnection::class, DataMapperEnvironmentConfiguration::class);
+        $dataMapper = $dataMapperFactory->create(DatabaseConnection::class, $this->environmentConfiguration);
         if ($dataMapper) {
             $queryBuilderFactory = new QueryBuilderFactory();
             $queryBuilder = $queryBuilderFactory->create(QueryBuilder::class);

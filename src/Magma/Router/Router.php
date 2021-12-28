@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Magma\Router;
 
-use Magma\Router\Exception\RouterBadMethodCallException;
-use Magma\Router\Exception\RouterException;
+use Magma\Base\Exception\BaseBadFunctionCallException;
+use Magma\Base\Exception\BaseBadMethodCallException;
+use Magma\Base\Exception\BaseInvalidArgumentException;
 use Magma\Router\RouterInterface;
 
 class Router implements RouterInterface
@@ -34,8 +35,12 @@ class Router implements RouterInterface
      */
     public function add(string $route, array $params = []) : void
     {   
+        // Convert the route to a regular expression: escape forward slashes
         $route = preg_replace('/\//', '\\/', $route);
+
+        // Add start and end delimiters, and case insensitive flag
         $route = '/^' . $route . '$/i';
+        
         $this->routes[$route] = $params;
     }
 
@@ -45,12 +50,11 @@ class Router implements RouterInterface
     public function dispatch(string $url) : void
     {   
         if ($this->match($url)) {
-            $controllerString = $this->params['controller'] . ' ' . $this->controllerSuffix;
+            $controllerString = $this->params['controller'] . $this->controllerSuffix;
             $controllerString = $this->transformUpperCamelCase($controllerString);
             $controllerString = $this->getNamespace($controllerString) . $controllerString;
-       
+
             if (class_exists($controllerString)) {
-                
                 $controllerObject = new $controllerString($this->params);
                 $action = $this->params['action'];
                 $action = $this->transformCamelCase($action);
@@ -58,13 +62,13 @@ class Router implements RouterInterface
                 if (\is_callable([$controllerObject, $action])) {
                     $controllerObject->$action();
                 } else {
-                    throw new RouterBadMethodCallException('Invalid method');
+                    throw new BaseBadMethodCallException('Invalid method');
                 }
             } else {
-                throw new RouterException('Controller class does not exist');
+                throw new BaseBadFunctionCallException('Controller class does not exist');
             }
         } else {
-            throw new RouterException('404 ERROR no page found');
+            throw new BaseInvalidArgumentException('404 ERROR no page found');
         }
     }
 
@@ -110,7 +114,7 @@ class Router implements RouterInterface
      */
     public function getNamespace(string $string) : string
     {
-        $namespace = 'Magma\App\Controller\\';
+        $namespace = 'App\Controller\\';
         if (array_key_exists('namespace', $this->params)) {
             $namespace .= $this->params['namespace'] . '\\';
         }

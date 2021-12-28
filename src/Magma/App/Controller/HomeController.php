@@ -16,18 +16,16 @@ class HomeController extends BaseController
 
     public function indexAction()
     {
-        echo 'Home ThecodingWorkshop<br>';
+        $repo = new UserModel();
+        var_dump($repo);
     }
+
 
     protected function before()
-    { 
-        echo 'this is the before action hook <br/>';
-    }
+    {}
 
     protected function after()
-    { 
-        echo 'this is the after action hook <br/>';
-    }
+    {}
 
 
 }

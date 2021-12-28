@@ -7,6 +7,7 @@ namespace Magma\Application;
 use Magma\Application\Config;
 use Magma\Traits\SystemTrait;
 use Magma\Router\RouterManager;
+use Magma\Yaml\YamlConfig;
 
 class Application
 {
@@ -52,7 +53,7 @@ class Application
         defined('DS') or define('DS', '/');
         defined('APP_ROOT') or define('APP_ROOT', $this->appRoot);
         defined('CONFIG_PATH') or define('CONFIG_PATH', APP_ROOT . DS . 'Config');
-        defined('TEMPLATE_PATH') or define('TEMPLATE_PATH', APP_ROOT . DS . 'App/templates');
+        defined('TEMPLATE_PATH') or define('TEMPLATE_PATH', APP_ROOT . DS . 'App/Templates');
         defined('LOG_DIR') or define('LOG_DIR', APP_ROOT . DS . 'tmp/log');
 
     }
@@ -87,9 +88,20 @@ class Application
         return $this;
     }
 
-    public function setRouteHandler(string $url) : self
+    /**
+     * Undocumented function
+     *
+     * @param string $url
+     * @param array $routes
+     * @return self
+     */
+    public function setRouteHandler(string $url = null, array $routes = []) : self
     {
-        RouterManager::dispatchRoute($url);
+        $url = ($url) ? $url : $_SERVER['QUERY_STRING'];
+        $routes = ($routes) ? $routes : YamlConfig::file('routes');
+        
+        $factory = new RouterFactory($url, $routes);
+        $factory->create(\Magma\Router\Router::class)->buildRoutes();
         return $this;
     }
 
