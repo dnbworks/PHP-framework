@@ -50,10 +50,11 @@ class Router implements RouterInterface
     public function dispatch(string $url) : void
     {   
         if ($this->match($url)) {
-            $controllerString = $this->params['controller'] . $this->controllerSuffix;
+            $controllerString = $this->params['controller'] . ' ' . $this->controllerSuffix;
             $controllerString = $this->transformUpperCamelCase($controllerString);
             $controllerString = $this->getNamespace($controllerString) . $controllerString;
-
+            // var_dump($controllerString);
+            // exit;
             if (class_exists($controllerString)) {
                 $controllerObject = new $controllerString($this->params);
                 $action = $this->params['action'];
@@ -114,7 +115,7 @@ class Router implements RouterInterface
      */
     public function getNamespace(string $string) : string
     {
-        $namespace = 'App\Controller\\';
+        $namespace = 'Magma\App\Controller\\';
         if (array_key_exists('namespace', $this->params)) {
             $namespace .= $this->params['namespace'] . '\\';
         }

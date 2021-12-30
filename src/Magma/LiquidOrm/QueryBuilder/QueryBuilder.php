@@ -79,6 +79,7 @@ class QueryBuilder implements QueryBuilderInterface
             $this->sqlQuery = "SELECT {$selectors} FROM {$this->key['table']}";
 
             $this->sqlQuery = $this->hasConditions();
+          
             return $this->sqlQuery;
 
         }
@@ -139,6 +140,7 @@ class QueryBuilder implements QueryBuilderInterface
     private function hasConditions()
     {
         if (isset($this->key['conditions']) && $this->key['conditions'] !='') {
+            
             if (is_array($this->key['conditions'])) {
                 $sort = [];
                 foreach (array_keys($this->key['conditions']) as $where) {
@@ -146,10 +148,7 @@ class QueryBuilder implements QueryBuilderInterface
                         $sort[] = $where . " = :" . $where;
                     }
                 }
-                /* typo*/
-                /*if (count($this->key['conditionsp']) > 0) {
-                    $this->sqlQuery .= " WHERE " . implode(" AND ", $sort);
-                }*/
+            
                 if (count($this->key['conditions']) > 0) {
                     $this->sqlQuery .= " WHERE " . implode(" AND ", $sort);
                 }

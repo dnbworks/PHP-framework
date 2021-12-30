@@ -12,6 +12,7 @@ use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
 use Magma\Twig\TwigExtension;
 use Exception;
+use Magma\Yaml\YamlConfig;
 
 class BaseView
 {
@@ -32,13 +33,18 @@ class BaseView
     {
         static $twig;
         if ($twig === null) {
-            $loader = new FilesystemLoader('templates', TEMPLATES_PATH);
-            $twig = new Environment($loader, array());
+            $loader = new FilesystemLoader(TEMPLATE_PATH); 
+            $twig = new Environment($loader, array(YamlConfig::file('twig')));
             $twig->addExtension(new DebugExtension());
             $twig->addExtension(new TwigExtension());
         }
         return $twig->render($template, $context);
 
+    }
+
+    public function twigRender(string $template, array $context = [])
+    {
+        echo $this->getTemplate($template, $context);
     }
 
 }

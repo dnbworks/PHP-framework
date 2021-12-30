@@ -54,7 +54,8 @@ class DataRepository implements DataRepositoryInterface
     {
         $this->isEmpty($id);
         try{
-            return $this->findOneBy(['id' => $id]);
+            // make the primary key dynamic
+            return $this->findOneBy(['user_id' => $id]);
         }catch(Throwable $throwable) {
             throw $throwable;
         }

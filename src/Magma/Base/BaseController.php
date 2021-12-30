@@ -42,7 +42,7 @@ class BaseController
         if ($this->twig === null) {
             throw new BaseLogicException('You cannot use the render method if the twig bundle is not available.');
         }
-        return $this->twig->getTemplate($template, $context);
+        return $this->twig->twigRender($template, $context);
     }
 
     /**

@@ -11,7 +11,8 @@
     "readme": "https://github.com/dnbworks/main/README.md",
     "autoload": {
         "psr-4": {
-            "Magma\\": "src/Magma"
+            "Magma\\": "src/Magma",
+            "App\\": "./App"
         }
     },
     "autoload-dev": {
